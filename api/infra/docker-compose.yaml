@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: agapal-db
+    env_file:
+      - ./env/local.env # ローカル環境用のファイル
+      # - ./env/prd.env # 本番環境用のファイル
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./ddl/init.sql:/docker-entrypoint-initdb.d/init.sql
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --init-file=/docker-entrypoint-initdb.d/init.sql
+      - --bind-address=0.0.0.0
